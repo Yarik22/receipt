@@ -4,13 +4,13 @@ class ReceiptApp {
     this.initElements();
     this.initEventListeners();
     this.render();
+    this.setupAutoUpdate();
   }
 
   initElements() {
     this.elements = {
       servicesContainer: document.getElementById("services"),
       addServiceBtn: document.getElementById("addServiceBtn"),
-      generateBtn: document.getElementById("generateReceiptBtn"),
       downloadBtn: document.getElementById("downloadReceiptBtn"),
       receiptContent: document.getElementById("receiptContent"),
       employeeName: document.getElementById("employeeName"),
@@ -18,6 +18,8 @@ class ReceiptApp {
       customerName: document.getElementById("customerName"),
       customerPhone: document.getElementById("customerPhone"),
       customerAddress: document.getElementById("customerAddress"),
+      prepaymentName: document.getElementById("prepaymentName"),
+      prepaymentPrice: document.getElementById("prepaymentPrice"),
     };
   }
 
@@ -25,39 +27,47 @@ class ReceiptApp {
     this.elements.addServiceBtn.addEventListener("click", () =>
       this.addService()
     );
-    this.elements.generateBtn.addEventListener("click", () =>
-      this.generateReceipt()
-    );
     this.elements.downloadBtn.addEventListener("click", () =>
       this.downloadReceipt()
     );
 
-    // Employee info listeners
-    this.elements.employeeName.addEventListener("change", () =>
+    // Use 'input' event for real-time updates
+    this.elements.employeeName.addEventListener("input", () =>
       this.updateEmployeeInfo()
     );
-    this.elements.employeePhone.addEventListener("change", () =>
+    this.elements.employeePhone.addEventListener("input", () =>
       this.updateEmployeeInfo()
     );
+    this.elements.customerName.addEventListener("input", () =>
+      this.updateCustomerInfo()
+    );
+    this.elements.customerPhone.addEventListener("input", () =>
+      this.updateCustomerInfo()
+    );
+    this.elements.customerAddress.addEventListener("input", () =>
+      this.updateCustomerInfo()
+    );
+    this.elements.prepaymentName.addEventListener("input", () =>
+      this.updatePrepayment()
+    );
+    this.elements.prepaymentPrice.addEventListener("input", () =>
+      this.updatePrepayment()
+    );
+  }
 
-    // Customer info listeners
-    this.elements.customerName.addEventListener("change", () =>
-      this.updateCustomerInfo()
-    );
-    this.elements.customerPhone.addEventListener("change", () =>
-      this.updateCustomerInfo()
-    );
-    this.elements.customerAddress.addEventListener("change", () =>
-      this.updateCustomerInfo()
-    );
+  setupAutoUpdate() {
+    // Additional auto-update setup for dynamically created elements
+    this.elements.servicesContainer.addEventListener("input", () => {
+      this.generateReceipt();
+    });
   }
 
   updateEmployeeInfo() {
     this.service.updateEmployeeInfo(
       this.elements.employeeName.value,
-      this.elements.employeePhone.value,
-      "" // Address is not in the form
+      this.elements.employeePhone.value
     );
+    this.generateReceipt();
   }
 
   updateCustomerInfo() {
@@ -66,6 +76,15 @@ class ReceiptApp {
       this.elements.customerPhone.value,
       this.elements.customerAddress.value
     );
+    this.generateReceipt();
+  }
+
+  updatePrepayment() {
+    this.service.updatePrepayment(
+      this.elements.prepaymentName.value,
+      this.elements.prepaymentPrice.value
+    );
+    this.generateReceipt();
   }
 
   render() {
@@ -95,8 +114,9 @@ class ReceiptApp {
     nameInput.type = "text";
     nameInput.value = service.name;
     nameInput.placeholder = "Назва послуги";
-    nameInput.addEventListener("change", (e) => {
+    nameInput.addEventListener("input", (e) => {
       service.name = e.target.value;
+      this.generateReceipt();
     });
 
     const removeBtn = document.createElement("button");
@@ -124,16 +144,18 @@ class ReceiptApp {
       nameInput.type = "text";
       nameInput.value = subservice.name;
       nameInput.placeholder = "Назва підпослуги";
-      nameInput.addEventListener("change", (e) => {
+      nameInput.addEventListener("input", (e) => {
         subservice.name = e.target.value;
+        this.generateReceipt();
       });
 
       const priceInput = document.createElement("input");
       priceInput.type = "number";
       priceInput.value = subservice.price;
       priceInput.placeholder = "Ціна";
-      priceInput.addEventListener("change", (e) => {
+      priceInput.addEventListener("input", (e) => {
         subservice.price = parseFloat(e.target.value) || 0;
+        this.generateReceipt();
       });
 
       inputsContainer.append(nameInput, priceInput);
@@ -170,7 +192,9 @@ class ReceiptApp {
   }
 
   generateReceipt() {
-    this.elements.receiptContent.innerHTML = "";
+    if (!this.elements.receiptContent) return;
+
+    const fragment = document.createDocumentFragment();
     const lines = this.service.generateReceipt();
 
     lines.forEach((line) => {
@@ -188,6 +212,15 @@ class ReceiptApp {
           el.className = "receipt-id";
           el.textContent = line.content;
           break;
+        case "prepayment":
+          el.className = "prepayment-line";
+          el.innerHTML = `
+            <div class="prepayment-container">
+              <span>${line.name}</span>
+              <span>${line.price}грн</span>
+            </div>
+          `;
+          break;
         case "service":
           el.className = "service-title";
           el.textContent = line.content;
@@ -196,15 +229,15 @@ class ReceiptApp {
           el.className = "subservice-line";
           const displayName = line.name.replace(/^\d+\.\d+\s/, "");
           el.innerHTML = `
-    <div class="subservice-container">
-      <div class="subservice-name-container">
-        <span class="subservice-name">${line.number} ${displayName}</span>
-      </div>
-      <div class="subservice-price-container">
-        <span class="subservice-price">${line.price}</span>
-      </div>
-    </div>
-  `;
+            <div class="subservice-container">
+              <div class="subservice-name-container">
+                <span class="subservice-name">${line.number} ${displayName}</span>
+              </div>
+              <div class="subservice-price-container">
+                <span class="subservice-price">${line.price}</span>
+              </div>
+            </div>
+          `;
           break;
         case "total":
           el.className = "total-line";
@@ -213,13 +246,16 @@ class ReceiptApp {
             <span>${line.value}</span>
           `;
           break;
-        default: // employee and text
+        default:
           el.className = "employee-info";
-          el.textContent = line.content;
+          el.innerHTML = line.content;
       }
 
-      this.elements.receiptContent.append(el);
+      fragment.appendChild(el);
     });
+
+    this.elements.receiptContent.innerHTML = "";
+    this.elements.receiptContent.appendChild(fragment);
   }
 
   downloadReceipt() {
@@ -237,9 +273,6 @@ class ReceiptApp {
       left: "-9999px",
       top: "0",
       width: "var(--receipt-width)",
-      padding: "1rem",
-      fontFamily: "Courier New, monospace",
-      fontSize: "12px",
       backgroundColor: "white",
       visibility: "visible",
       opacity: "1",

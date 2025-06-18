@@ -14,6 +14,25 @@
       <main class="main">
         <section class="section">
           <h2>Редактор послуг</h2>
+          <div class="input-group">
+            <label>Передплата:</label>
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem">
+              <input
+                type="text"
+                id="prepaymentName"
+                value="Передплата"
+                placeholder="Назва передплати"
+                style="flex: 1"
+              />
+              <input
+                type="number"
+                id="prepaymentPrice"
+                value="0"
+                placeholder="Сума"
+                style="width: 100px"
+              />
+            </div>
+          </div>
           <div id="services" class="services-list"></div>
 
           <div class="input-group">
@@ -74,10 +93,9 @@
             "
           >
             <h2>Попередній перегляд</h2>
-            <div>
-              <button id="generateReceiptBtn" class="btn">Оновити</button>
+            <div class="button-group">
               <button id="downloadReceiptBtn" class="btn btn-primary">
-                Завантажити
+                <span class="btn-text">Завантажити</span>
               </button>
             </div>
           </div>

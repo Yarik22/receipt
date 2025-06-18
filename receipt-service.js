@@ -10,6 +10,11 @@ class ReceiptService {
       phone: "Відсутній",
       address: "Відсутня",
     };
+    this.prepayment = {
+      name: "Передплата",
+      price: 0,
+      enabled: true,
+    };
   }
 
   getInitialServices() {
@@ -39,11 +44,16 @@ class ReceiptService {
     ];
   }
 
+  updatePrepayment(name, price) {
+    this.prepayment.name = name;
+    this.prepayment.price = parseFloat(price) || 0;
+  }
+
   addService() {
     const newService = {
       id: uuid.v4(),
       name: "Нова послуга",
-      subservices: [{ id: uuid.v4(), name: "###", price: 0 }],
+      subservices: [{ id: uuid.v4(), name: "", price: 0 }],
     };
     this.services.push(newService);
     return newService;
@@ -56,7 +66,7 @@ class ReceiptService {
   addSubservice(serviceId) {
     const service = this.services.find((s) => s.id === serviceId);
     if (service) {
-      const newSubservice = { id: uuid.v4(), name: "###", price: 0 };
+      const newSubservice = { id: uuid.v4(), name: "", price: 0 };
       service.subservices.push(newSubservice);
       return newSubservice;
     }
@@ -75,7 +85,7 @@ class ReceiptService {
   updateEmployeeInfo(name, phone, address) {
     this.employee.name = name;
     this.employee.phone = phone;
-    this.employee.address = address;
+    this.employee.address = address || "";
   }
 
   updateCustomerInfo(name, phone, address) {
@@ -94,8 +104,19 @@ class ReceiptService {
     lines.push({ type: "id", content: "id: " + uuid.v4().split("-")[0] });
     lines.push({ type: "divider" });
 
+    // Prepayment (always shown)
+    lines.push({
+      type: "prepayment",
+      name: this.prepayment.name,
+      price: this.prepayment.price.toFixed(2),
+    });
+    lines.push({ type: "divider" });
+
     // Services
     this.services.forEach((service, serviceIndex) => {
+      // Count only visible subservices for this service
+      let visibleSubIndex = 0;
+
       lines.push({
         type: "service",
         content: `${serviceIndex + 1}) ${service.name}`,
@@ -104,21 +125,29 @@ class ReceiptService {
       service.subservices.forEach((subservice, subIndex) => {
         const price = subservice.price || 0;
         total += price;
-        lines.push({
-          type: "subservice",
-          name: `${serviceIndex + 1}.${subIndex + 1} ${subservice.name}`,
-          price: `${price.toFixed(2)}грн`,
-          number: `${serviceIndex + 1}.${subIndex + 1}`,
-        });
+
+        // Only show subservice name if price is not exactly 0
+        if (price !== 0) {
+          visibleSubIndex++; // Increment only for visible subservices
+          lines.push({
+            type: "subservice",
+            name: `${serviceIndex + 1}.${visibleSubIndex} ${subservice.name}`,
+            price: `${price.toFixed(2)} грн`,
+            number: `${serviceIndex + 1}.${visibleSubIndex}`,
+          });
+        }
       });
     });
+
+    // Calculate total with prepayment deduction
+    const finalTotal = total + this.prepayment.price;
 
     // Footer
     lines.push({ type: "divider" });
     lines.push({
       type: "total",
       label: "Загальна сума",
-      value: `${total.toFixed(2)}грн`,
+      value: `${finalTotal.toFixed(2)} грн`,
     });
     lines.push({ type: "divider" });
 
@@ -126,7 +155,7 @@ class ReceiptService {
     lines.push({ type: "text", content: `Виконавець: ${this.employee.name}` });
     lines.push({
       type: "text",
-      content: `Телефон виконавця: ${this.employee.phone}`,
+      content: `Телефон виконавця:<br>${this.employee.phone}`,
     });
 
     // Customer info
@@ -135,12 +164,12 @@ class ReceiptService {
     if (this.customer.phone)
       lines.push({
         type: "text",
-        content: `Телефон замовника: ${this.customer.phone}`,
+        content: `Телефон замовника:<br>${this.customer.phone}`,
       });
     if (this.customer.address)
       lines.push({
         type: "text",
-        content: `Адреса замовника: ${this.customer.address}`,
+        content: `Адреса замовника:<br>${this.customer.address}`,
       });
 
     return lines;
