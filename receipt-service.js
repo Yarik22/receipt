@@ -23,22 +23,22 @@ class ReceiptService {
         id: uuid.v4(),
         name: "Матеріал та розхідники",
         subservices: [
-          { id: uuid.v4(), name: "Камери", price: 0 },
-          { id: uuid.v4(), name: "Розподілювальні коробки", price: 0 },
-          { id: uuid.v4(), name: "РоЕ сплітери", price: 0 },
-          { id: uuid.v4(), name: "Конектори", price: 0 },
-          { id: uuid.v4(), name: "Натягувачі", price: 0 },
-          { id: uuid.v4(), name: "Крюки", price: 0 },
-          { id: uuid.v4(), name: "Хомути", price: 0 },
-          { id: uuid.v4(), name: "Кріплення", price: 0 },
+          { id: uuid.v4(), name: "Камери", price: "" },
+          { id: uuid.v4(), name: "Розподілювальні коробки", price: "" },
+          { id: uuid.v4(), name: "РоЕ сплітери", price: "" },
+          { id: uuid.v4(), name: "Конектори", price: "" },
+          { id: uuid.v4(), name: "Натягувачі", price: "" },
+          { id: uuid.v4(), name: "Крюки", price: "" },
+          { id: uuid.v4(), name: "Хомути", price: "" },
+          { id: uuid.v4(), name: "Кріплення", price: "" },
         ],
       },
       {
         id: uuid.v4(),
         name: "Робота",
         subservices: [
-          { id: uuid.v4(), name: "Монтаж", price: 0 },
-          { id: uuid.v4(), name: "Налаштування", price: 0 },
+          { id: uuid.v4(), name: "Монтаж", price: "" },
+          { id: uuid.v4(), name: "Налаштування", price: "" },
         ],
       },
     ];
@@ -108,7 +108,7 @@ class ReceiptService {
     lines.push({
       type: "prepayment",
       name: this.prepayment.name,
-      price: this.prepayment.price.toFixed(2),
+      price: this.prepayment.price.toFixed(0),
     });
     lines.push({ type: "divider" });
 
@@ -132,7 +132,7 @@ class ReceiptService {
           lines.push({
             type: "subservice",
             name: `${serviceIndex + 1}.${visibleSubIndex} ${subservice.name}`,
-            price: `${price.toFixed(2)} грн`,
+            price: `${price.toFixed(0)} грн`,
             number: `${serviceIndex + 1}.${visibleSubIndex}`,
           });
         }
@@ -147,7 +147,7 @@ class ReceiptService {
     lines.push({
       type: "total",
       label: "Загальна сума",
-      value: `${finalTotal.toFixed(2)} грн`,
+      value: `${finalTotal.toFixed(0)} грн`,
     });
     lines.push({ type: "divider" });
 
