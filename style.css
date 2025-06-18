@@ -1,0 +1,338 @@
+/* Base Variables */
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --secondary: #6b7280;
+  --accent: #f59e0b;
+  --light: #f9fafb;
+  --dark: #111827;
+  --success: #10b981;
+  --danger: #ef4444;
+  --border: #e5e7eb;
+  --border-dark: #d1d5db;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --receipt-width: 208px; /* 55mm */
+  --radius: 0.375rem;
+  --radius-lg: 0.5rem;
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+  line-height: 1.5;
+  color: var(--dark);
+  background-color: #f3f4f6;
+  padding-bottom: 2rem;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 600;
+  color: var(--dark);
+}
+
+h1 {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+h2 {
+  font-size: 1.375rem;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: 1.125rem;
+  margin-bottom: 0.75rem;
+}
+
+p {
+  color: var(--secondary);
+}
+
+/* Layout Components */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.header p {
+  font-size: 1.125rem;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.section {
+  background: white;
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+/* Form Elements */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--light);
+  color: var(--dark);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: white;
+}
+
+.btn-danger:hover {
+  opacity: 0.9;
+}
+
+.input-group {
+  margin-bottom: 1rem;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.375rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--dark);
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  transition: border-color 0.2s;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Services Editor */
+.services-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.service-card {
+  background: var(--light);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  border-left: 4px solid var(--primary);
+  box-shadow: var(--shadow);
+}
+
+.service-header {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  align-items: center;
+}
+
+.service-header input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  background: white;
+  border: 1px solid var(--border-dark);
+}
+
+.subservice {
+  display: flex;
+  gap: 0.75rem;
+  margin: 0.5rem 0 0.5rem 0.5rem;
+  align-items: center;
+}
+
+.subservice input[type="text"] {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+}
+
+.subservice input[type="number"] {
+  width: 6rem;
+  padding: 0.5rem 0.75rem;
+}
+
+/* Receipt Preview */
+.receipt {
+  width: var(--receipt-width);
+  margin: 0 auto;
+  padding: 1.25rem;
+  background: white;
+  border: 1px dashed var(--border-dark);
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  word-break: break-word;
+  box-shadow: var(--shadow);
+}
+
+.receipt-title {
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.receipt-id {
+  font-style: italic;
+  text-align: center;
+  font-size: 12px;
+  color: var(--secondary);
+}
+
+.receipt-divider {
+  border-top: 1px dashed var(--dark);
+  margin: 0.2rem 0;
+}
+
+.service-title {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+.subservice-line {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 0.2rem;
+  margin-bottom: 0.125rem;
+}
+
+.subservice-name {
+  margin-right: 0.5rem;
+}
+
+.total-line {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  margin: 0.5rem 0;
+}
+
+.employee-info {
+  text-align: left;
+  margin-top: 0.75rem;
+  font-size: 12px;
+  font-style: italic;
+}
+
+#receiptContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+/* Button Group */
+.button-group {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  justify-content: flex-end;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .main {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+
+  .header {
+    margin-bottom: 1.5rem;
+    padding: 1rem 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .button-group {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .subservice {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .subservice input[type="text"],
+  .subservice input[type="number"] {
+    width: 100%;
+  }
+
+  .service-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .service-header input {
+    width: 100%;
+  }
+}

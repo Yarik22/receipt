@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Генератор фіскальних чеків</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <h1>Генератор фіскальних чеків</h1>
+        <p>Створюйте професійні фіскальні чеки</p>
+      </header>
+
+      <main class="main">
+        <section class="section">
+          <h2>Редактор послуг</h2>
+          <div id="services" class="services-list"></div>
+
+          <div class="input-group">
+            <button id="addServiceBtn" class="btn btn-primary">
+              + Додати послугу
+            </button>
+          </div>
+
+          <h3>Інформація про працівника</h3>
+          <div class="input-group">
+            <label>Працівник:</label>
+            <input
+              type="text"
+              id="employeeName"
+              value="Попов Андрій В'ячеславович"
+            />
+          </div>
+          <div class="input-group">
+            <label>Телефон:</label>
+            <input type="text" id="employeePhone" value="+38 050 200 5589" />
+          </div>
+          <div class="input-group">
+            <label>Адреса:</label>
+            <input type="text" id="employeeAddress" value="Адрес" />
+          </div>
+        </section>
+
+        <section class="section">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            "
+          >
+            <h2>Попередній перегляд</h2>
+            <div>
+              <button id="generateReceiptBtn" class="btn">Оновити</button>
+              <button id="downloadReceiptBtn" class="btn btn-primary">
+                Завантажити
+              </button>
+            </div>
+          </div>
+
+          <div id="receipt" class="receipt">
+            <div id="receiptContent"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="receipt-service.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
