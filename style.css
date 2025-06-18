@@ -213,7 +213,7 @@ p {
 .receipt {
   width: var(--receipt-width);
   margin: 0 auto;
-  padding: 0.25rem;
+  padding: 1rem;
   background: white;
   border: 1px dashed var(--border-dark);
   font-family: "Courier New", monospace;
@@ -248,7 +248,7 @@ p {
 }
 
 .service-title {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700; /* Bolder */
   font-family: serif;
   margin-bottom: 0.15rem; /* Reduced from 0.25rem */
@@ -256,7 +256,7 @@ p {
 
 .subservice-line {
   letter-spacing: -1.5px;
-  font-size: 16px;
+  font-size: 14px;
   display: flex;
   justify-content: space-between;
   margin-left: 0.2rem;
@@ -266,7 +266,7 @@ p {
 
 .subservice-name {
   letter-spacing: -1px;
-  font-size: 16px;
+  font-size: 14px;
   margin-right: 0.5rem;
 }
 
@@ -281,7 +281,7 @@ p {
 .employee-info {
   text-align: left;
   margin-top: 0.5rem; /* Reduced from 0.75rem */
-  font-size: 14px;
+  font-size: 13px;
   font-style: italic;
   font-weight: 600; /* Added boldness */
 }
