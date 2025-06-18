@@ -275,7 +275,8 @@ p {
   justify-content: space-between;
   font-weight: 700; /* Bolder */
   margin: 0.3rem 0; /* Reduced from 0.5rem */
-  font-size: 13px; /* Increased */
+  font-size: 14px; /* Increased */
+  font-family: serif;
 }
 
 .employee-info {
