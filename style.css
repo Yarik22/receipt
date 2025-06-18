@@ -126,6 +126,38 @@ p {
   background: var(--primary-dark);
 }
 
+.service-header .btn-danger {
+  background: var(--danger);
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.subservice .btn-danger {
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 0.875rem;
+}
+
+.subservice .btn-danger:hover {
+  background: var(--danger);
+  color: white;
+}
 .btn-danger {
   background: var(--danger);
   color: white;
@@ -202,11 +234,12 @@ p {
 .subservice input[type="text"] {
   flex: 1;
   padding: 0.5rem 0.75rem;
+  margin-right: 0.75rem; /* Add space between name and price */
 }
-
 .subservice input[type="number"] {
   width: 6rem;
   padding: 0.5rem 0.75rem;
+  margin-right: 0.75rem; /* Add space between price and delete button */
 }
 
 /* Receipt Preview */
@@ -217,11 +250,9 @@ p {
   background: white;
   border: 1px dashed var(--border-dark);
   font-family: "Courier New", monospace;
-  font-size: 14px; /* Increased from 12px */
-  font-weight: 600; /* Added boldness */
-  line-height: 1.3; /* Reduced from 1.4 */
-  white-space: pre-wrap;
-  word-break: break-word;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
   box-shadow: var(--shadow);
 }
 
@@ -255,19 +286,36 @@ p {
 }
 
 .subservice-line {
-  letter-spacing: -1.5px;
-  font-size: 14px;
+  font-family: serif;
   display: flex;
-  justify-content: space-between;
   margin-left: 0.2rem;
-  margin-bottom: 0.1rem; /* Reduced from 0.125rem */
-  font-weight: 600; /* Added boldness */
+  margin-bottom: 0.1rem;
+  font-weight: 600;
+  width: 100%;
+}
+.subservice-name {
+  white-space: normal;
+  word-break: break-word;
+  text-align: left;
+  line-height: 1.3;
+}
+.subservice-price-container {
+  width: 30px; /* Fixed width for price */
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+.subservice-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
 }
 
-.subservice-name {
-  letter-spacing: -1px;
-  font-size: 14px;
-  margin-right: 0.5rem;
+.subservice-name-container {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: flex-end;
 }
 
 .total-line {
@@ -279,10 +327,19 @@ p {
   font-family: serif;
 }
 
+.subservice-price {
+  white-space: nowrap;
+  text-align: right;
+}
+.subservice-number {
+  margin-right: 0.25rem;
+  flex-shrink: 0;
+}
+
 .employee-info {
   text-align: left;
-  margin-top: 0.5rem; /* Reduced from 0.75rem */
-  font-size: 13px;
+  margin-top: 0.2rem; /* Reduced from 0.75rem */
+  font-size: 14px;
   font-style: italic;
   font-weight: 600; /* Added boldness */
 }
@@ -318,34 +375,119 @@ p {
   }
 }
 
-@media (max-width: 640px) {
-  .button-group {
-    flex-direction: column;
+/* Mobile-first styles */
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+  /* Service header with delete button on right */
+  .service-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
   }
 
-  .btn {
-    width: 100%;
-    justify-content: center;
+  .service-header input {
+    flex: 1;
+    min-width: 0;
   }
 
+  .service-header .btn-danger {
+    order: 2; /* Move to end of flex container */
+    margin-left: auto; /* Push to right */
+    width: 36px;
+    height: 36px;
+    font-size: 1.2rem;
+    background: #ff4444;
+    color: white;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Subservice container */
   .subservice {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+    align-items: stretch; /* Make all items same height */
+  }
+
+  /* Subservice input group */
+  .subservice-inputs {
+    flex: 1;
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
     gap: 0.5rem;
   }
 
+  /* Subservice delete button */
+  .subservice .btn-danger {
+    width: 36px;
+    height: auto; /* Take full height of container */
+    background: white;
+    color: #ff4444;
+    border: 2px solid #ff4444;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    padding: 0;
+    margin-left: auto; /* Push to right */
+  }
+
+  /* Make inputs full width */
   .subservice input[type="text"],
   .subservice input[type="number"] {
     width: 100%;
   }
 
-  .service-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
+  /* Visual feedback */
+  button:active {
+    transform: scale(0.95);
   }
+}
 
-  .service-header input {
-    width: 100%;
-  }
+/* Touch-friendly styles */
+.btn {
+  min-width: 44px; /* Minimum touch target size */
+  min-height: 44px;
+}
+
+.service-delete-btn {
+  font-weight: bold;
+  font-size: 1.5rem;
+  background: #ff4444;
+  color: white;
+  border: none;
+}
+
+.subservice-delete-btn {
+  background: white;
+  color: #ff4444;
+  border: 2px solid #ff4444;
+}
+
+/* Visual feedback for touches */
+button:active {
+  transform: scale(0.95);
+}
+
+/* Receipt preview adjustments */
+.receipt {
+  width: 100%;
+  max-width: var(--receipt-width);
+  margin: 0 auto;
+}
+
+/* Button group spacing */
+.button-group {
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.button-group .btn {
+  width: 100%;
 }

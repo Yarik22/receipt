@@ -4,6 +4,10 @@ class ReceiptService {
     this.employee = {
       name: "Попов Андрій В'ячеславович",
       phone: "050-200-55-89",
+    };
+    this.customer = {
+      name: "Відсутній",
+      phone: "Відсутній",
       address: "Відсутня",
     };
   }
@@ -12,75 +16,24 @@ class ReceiptService {
     return [
       {
         id: uuid.v4(),
-        name: "Передплата за роботу",
-        subservices: [
-          {
-            id: uuid.v4(),
-            name: "Паливо",
-            price: 0,
-          },
-        ],
-      },
-      {
-        id: uuid.v4(),
         name: "Матеріал та розхідники",
         subservices: [
-          {
-            id: uuid.v4(),
-            name: "Камери",
-            price: 0,
-          },
-          {
-            id: uuid.v4(),
-            name: "Розподілювачі",
-            price: 0,
-          },
-          {
-            id: uuid.v4(),
-            name: "РоЕ сплітери",
-            price: 0,
-          },
-          {
-            id: uuid.v4(),
-            name: "Конектори",
-            price: 0,
-          },
-          {
-            id: uuid.v4(),
-            name: "Натягувачі",
-            price: 0,
-          },
-          {
-            id: uuid.v4(),
-            name: "Крюки",
-            price: 0,
-          },
-          {
-            id: uuid.v4(),
-            name: "Хомути",
-            price: 0,
-          },
-          {
-            id: uuid.v4(),
-            name: "Кріплення",
-            price: 0,
-          },
+          { id: uuid.v4(), name: "Камери", price: 0 },
+          { id: uuid.v4(), name: "Розподілювальні коробки", price: 0 },
+          { id: uuid.v4(), name: "РоЕ сплітери", price: 0 },
+          { id: uuid.v4(), name: "Конектори", price: 0 },
+          { id: uuid.v4(), name: "Натягувачі", price: 0 },
+          { id: uuid.v4(), name: "Крюки", price: 0 },
+          { id: uuid.v4(), name: "Хомути", price: 0 },
+          { id: uuid.v4(), name: "Кріплення", price: 0 },
         ],
       },
       {
         id: uuid.v4(),
         name: "Робота",
         subservices: [
-          {
-            id: uuid.v4(),
-            name: "Монтаж",
-            price: 0,
-          },
-          {
-            id: uuid.v4(),
-            name: "Налаштування",
-            price: 0,
-          },
+          { id: uuid.v4(), name: "Монтаж", price: 0 },
+          { id: uuid.v4(), name: "Налаштування", price: 0 },
         ],
       },
     ];
@@ -90,13 +43,7 @@ class ReceiptService {
     const newService = {
       id: uuid.v4(),
       name: "Нова послуга",
-      subservices: [
-        {
-          id: uuid.v4(),
-          name: "###",
-          price: 0,
-        },
-      ],
+      subservices: [{ id: uuid.v4(), name: "###", price: 0 }],
     };
     this.services.push(newService);
     return newService;
@@ -109,11 +56,7 @@ class ReceiptService {
   addSubservice(serviceId) {
     const service = this.services.find((s) => s.id === serviceId);
     if (service) {
-      const newSubservice = {
-        id: uuid.v4(),
-        name: "###",
-        price: 0,
-      };
+      const newSubservice = { id: uuid.v4(), name: "###", price: 0 };
       service.subservices.push(newSubservice);
       return newSubservice;
     }
@@ -135,13 +78,18 @@ class ReceiptService {
     this.employee.address = address;
   }
 
+  updateCustomerInfo(name, phone, address) {
+    this.customer.name = name;
+    this.customer.phone = phone;
+    this.customer.address = address;
+  }
+
   generateReceipt() {
     let total = 0;
-    const receiptWidth = 38;
     let lines = [];
 
     // Header
-    lines.push({ type: "title", content: "ФІСКАЛЬНИЙ ЧЕК" });
+    lines.push({ type: "title", content: "ЧЕК" });
     lines.push({ type: "divider" });
     lines.push({ type: "id", content: "id: " + uuid.v4().split("-")[0] });
     lines.push({ type: "divider" });
@@ -156,11 +104,11 @@ class ReceiptService {
       service.subservices.forEach((subservice, subIndex) => {
         const price = subservice.price || 0;
         total += price;
-
         lines.push({
           type: "subservice",
           name: `${serviceIndex + 1}.${subIndex + 1} ${subservice.name}`,
-          price: `${price} грн`,
+          price: `${price.toFixed(2)}грн`,
+          number: `${serviceIndex + 1}.${subIndex + 1}`,
         });
       });
     });
@@ -170,14 +118,30 @@ class ReceiptService {
     lines.push({
       type: "total",
       label: "Загальна сума",
-      value: `${total} грн`,
+      value: `${total.toFixed(2)}грн`,
     });
     lines.push({ type: "divider" });
 
-    // Employee info - just plain text
-    lines.push({ type: "text", content: `Працівник: ${this.employee.name}` });
-    lines.push({ type: "text", content: `Телефон: ${this.employee.phone}` });
-    lines.push({ type: "text", content: `Адреса: ${this.employee.address}` });
+    // Employee info
+    lines.push({ type: "text", content: `Виконавець: ${this.employee.name}` });
+    lines.push({
+      type: "text",
+      content: `Телефон виконавця: ${this.employee.phone}`,
+    });
+
+    // Customer info
+    if (this.customer.name)
+      lines.push({ type: "text", content: `Замовник: ${this.customer.name}` });
+    if (this.customer.phone)
+      lines.push({
+        type: "text",
+        content: `Телефон замовника: ${this.customer.phone}`,
+      });
+    if (this.customer.address)
+      lines.push({
+        type: "text",
+        content: `Адреса замовника: ${this.customer.address}`,
+      });
 
     return lines;
   }

@@ -11,11 +11,6 @@
   </head>
   <body>
     <div class="container">
-      <header class="header">
-        <h1>Генератор фіскальних чеків</h1>
-        <p>Створюйте професійні фіскальні чеки</p>
-      </header>
-
       <main class="main">
         <section class="section">
           <h2>Редактор послуг</h2>
@@ -27,9 +22,9 @@
             </button>
           </div>
 
-          <h3>Інформація про працівника</h3>
+          <h3>Інформація про виконавця</h3>
           <div class="input-group">
-            <label>Працівник:</label>
+            <label>Виконавець:</label>
             <input
               type="text"
               id="employeeName"
@@ -40,9 +35,33 @@
             <label>Телефон:</label>
             <input type="text" id="employeePhone" value="050-200-55-89" />
           </div>
+          <h3>Інформація про замовника</h3>
+          <div class="input-group">
+            <label>Замовник:</label>
+            <input
+              type="text"
+              id="customerName"
+              placeholder="Ім'я замовника"
+              value="Відсутній"
+            />
+          </div>
+          <div class="input-group">
+            <label>Телефон:</label>
+            <input
+              type="text"
+              id="customerPhone"
+              placeholder="Телефон замовника"
+              value="Відсутній"
+            />
+          </div>
           <div class="input-group">
             <label>Адреса:</label>
-            <input type="text" id="employeeAddress" value="Відсутня" />
+            <input
+              type="text"
+              id="customerAddress"
+              placeholder="Адреса замовника"
+              value="Відсутня"
+            />
           </div>
         </section>
 

@@ -15,7 +15,9 @@ class ReceiptApp {
       receiptContent: document.getElementById("receiptContent"),
       employeeName: document.getElementById("employeeName"),
       employeePhone: document.getElementById("employeePhone"),
-      employeeAddress: document.getElementById("employeeAddress"),
+      customerName: document.getElementById("customerName"),
+      customerPhone: document.getElementById("customerPhone"),
+      customerAddress: document.getElementById("customerAddress"),
     };
   }
 
@@ -30,20 +32,39 @@ class ReceiptApp {
       this.downloadReceipt()
     );
 
-    [
-      this.elements.employeeName,
-      this.elements.employeePhone,
-      this.elements.employeeAddress,
-    ].forEach((input) => {
-      input.addEventListener("change", () => this.updateEmployeeInfo());
-    });
+    // Employee info listeners
+    this.elements.employeeName.addEventListener("change", () =>
+      this.updateEmployeeInfo()
+    );
+    this.elements.employeePhone.addEventListener("change", () =>
+      this.updateEmployeeInfo()
+    );
+
+    // Customer info listeners
+    this.elements.customerName.addEventListener("change", () =>
+      this.updateCustomerInfo()
+    );
+    this.elements.customerPhone.addEventListener("change", () =>
+      this.updateCustomerInfo()
+    );
+    this.elements.customerAddress.addEventListener("change", () =>
+      this.updateCustomerInfo()
+    );
   }
 
   updateEmployeeInfo() {
     this.service.updateEmployeeInfo(
       this.elements.employeeName.value,
       this.elements.employeePhone.value,
-      this.elements.employeeAddress.value
+      "" // Address is not in the form
+    );
+  }
+
+  updateCustomerInfo() {
+    this.service.updateCustomerInfo(
+      this.elements.customerName.value,
+      this.elements.customerPhone.value,
+      this.elements.customerAddress.value
     );
   }
 
@@ -79,8 +100,9 @@ class ReceiptApp {
     });
 
     const removeBtn = document.createElement("button");
-    removeBtn.className = "btn btn-danger";
+    removeBtn.className = "btn btn-danger service-delete-btn";
     removeBtn.innerHTML = "×";
+    removeBtn.title = "Видалити послугу";
     removeBtn.addEventListener("click", () => {
       this.service.removeService(service.id);
       this.renderServices();
@@ -93,6 +115,10 @@ class ReceiptApp {
     service.subservices.forEach((subservice) => {
       const subEl = document.createElement("div");
       subEl.className = "subservice";
+
+      // Input container
+      const inputsContainer = document.createElement("div");
+      inputsContainer.className = "subservice-inputs";
 
       const nameInput = document.createElement("input");
       nameInput.type = "text";
@@ -110,15 +136,18 @@ class ReceiptApp {
         subservice.price = parseFloat(e.target.value) || 0;
       });
 
+      inputsContainer.append(nameInput, priceInput);
+
       const removeBtn = document.createElement("button");
-      removeBtn.className = "btn btn-danger";
+      removeBtn.className = "btn btn-danger subservice-delete-btn";
       removeBtn.innerHTML = "×";
+      removeBtn.title = "Видалити підпослугу";
       removeBtn.addEventListener("click", () => {
         this.service.removeSubservice(service.id, subservice.id);
         this.renderServices();
       });
 
-      subEl.append(nameInput, priceInput, removeBtn);
+      subEl.append(inputsContainer, removeBtn);
       serviceEl.append(subEl);
     });
 
@@ -165,10 +194,17 @@ class ReceiptApp {
           break;
         case "subservice":
           el.className = "subservice-line";
+          const displayName = line.name.replace(/^\d+\.\d+\s/, "");
           el.innerHTML = `
-            <span class="subservice-name">${line.name}</span>
-            <span class="subservice-price">${line.price}</span>
-          `;
+    <div class="subservice-container">
+      <div class="subservice-name-container">
+        <span class="subservice-name">${line.number} ${displayName}</span>
+      </div>
+      <div class="subservice-price-container">
+        <span class="subservice-price">${line.price}</span>
+      </div>
+    </div>
+  `;
           break;
         case "total":
           el.className = "total-line";
@@ -185,23 +221,17 @@ class ReceiptApp {
       this.elements.receiptContent.append(el);
     });
   }
+
   downloadReceipt() {
-    // First ensure the receipt is generated
     this.generateReceipt();
-
-    // Get the original receipt element
     const receipt = document.getElementById("receipt");
-
-    // Show loading state (optional)
     const originalButtonText = this.elements.downloadBtn.innerHTML;
     this.elements.downloadBtn.innerHTML = "Generating...";
     this.elements.downloadBtn.disabled = true;
 
-    // Create clone with all necessary styles
     const clone = receipt.cloneNode(true);
     clone.id = "receipt-clone";
 
-    // Apply required styles to the clone
     const cloneStyles = {
       position: "absolute",
       left: "-9999px",
@@ -216,29 +246,21 @@ class ReceiptApp {
     };
 
     Object.assign(clone.style, cloneStyles);
-
-    // Append to body
     document.body.appendChild(clone);
 
-    // Use setTimeout to ensure proper rendering
     setTimeout(() => {
       html2canvas(clone, {
-        scale: 2, // Higher quality
+        scale: 2,
         logging: false,
         useCORS: true,
         allowTaint: true,
       })
         .then((canvas) => {
-          // Create download link
           const link = document.createElement("a");
           link.download = "receipt.png";
           link.href = canvas.toDataURL("image/png");
           link.click();
-
-          // Clean up
           clone.remove();
-
-          // Restore button state
           this.elements.downloadBtn.innerHTML = originalButtonText;
           this.elements.downloadBtn.disabled = false;
         })
@@ -252,5 +274,4 @@ class ReceiptApp {
   }
 }
 
-// Initialize the app when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => new ReceiptApp());
