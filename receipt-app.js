@@ -56,7 +56,6 @@ class ReceiptApp {
   }
 
   setupAutoUpdate() {
-    // Additional auto-update setup for dynamically created elements
     this.elements.servicesContainer.addEventListener("input", () => {
       this.generateReceipt();
     });
@@ -217,7 +216,7 @@ class ReceiptApp {
           el.innerHTML = `
             <div class="prepayment-container">
               <span>${line.name}</span>
-              <span>${line.price}грн</span>
+              <span>${line.price} грн</span>
             </div>
           `;
           break;
@@ -306,5 +305,3 @@ class ReceiptApp {
     }, 200);
   }
 }
-
-document.addEventListener("DOMContentLoaded", () => new ReceiptApp());

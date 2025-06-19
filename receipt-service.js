@@ -24,7 +24,7 @@ class ReceiptService {
         name: "Матеріал та розхідники",
         subservices: [
           { id: uuid.v4(), name: "Камери", price: "" },
-          { id: uuid.v4(), name: "Розподілювальні коробки", price: "" },
+          { id: uuid.v4(), name: "Розподільчі коробки", price: "" },
           { id: uuid.v4(), name: "РоЕ сплітери", price: "" },
           { id: uuid.v4(), name: "Конектори", price: "" },
           { id: uuid.v4(), name: "Натягувачі", price: "" },
@@ -52,8 +52,8 @@ class ReceiptService {
   addService() {
     const newService = {
       id: uuid.v4(),
-      name: "Нова послуга",
-      subservices: [{ id: uuid.v4(), name: "", price: 0 }],
+      name: "Додаткові послуги",
+      subservices: [{ id: uuid.v4(), name: "", price: "" }],
     };
     this.services.push(newService);
     return newService;
@@ -66,7 +66,7 @@ class ReceiptService {
   addSubservice(serviceId) {
     const service = this.services.find((s) => s.id === serviceId);
     if (service) {
-      const newSubservice = { id: uuid.v4(), name: "", price: 0 };
+      const newSubservice = { id: uuid.v4(), name: "", price: "" };
       service.subservices.push(newSubservice);
       return newSubservice;
     }
@@ -114,7 +114,6 @@ class ReceiptService {
 
     // Services
     this.services.forEach((service, serviceIndex) => {
-      // Count only visible subservices for this service
       let visibleSubIndex = 0;
 
       lines.push({
@@ -126,9 +125,8 @@ class ReceiptService {
         const price = subservice.price || 0;
         total += price;
 
-        // Only show subservice name if price is not exactly 0
         if (price !== 0) {
-          visibleSubIndex++; // Increment only for visible subservices
+          visibleSubIndex++;
           lines.push({
             type: "subservice",
             name: `${serviceIndex + 1}.${visibleSubIndex} ${subservice.name}`,

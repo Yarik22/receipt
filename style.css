@@ -256,7 +256,6 @@ p {
   font-style: italic;
   text-align: center;
   font-size: 14px;
-  color: var(--secondary);
   font-weight: 600;
 }
 
@@ -290,8 +289,8 @@ p {
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  min-width: 30px; /* Minimum width to prevent collapsing */
-  flex-shrink: 0; /* Prevent shrinking */
+  min-width: 30px;
+  flex-shrink: 0;
 }
 
 .subservice-container {
@@ -315,6 +314,13 @@ p {
   font-size: 14px;
 }
 
+.total-line span:last-child {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  min-width: 30px;
+  flex-shrink: 0;
+}
 .subservice-price {
   white-space: nowrap;
   text-align: right;
@@ -381,7 +387,6 @@ p {
   font-weight: 600;
   margin: 0.3rem 0;
   font-size: 14px;
-  color: var(--danger);
 }
 
 .prepayment-container {
@@ -390,6 +395,13 @@ p {
   width: 100%;
 }
 
+.prepayment-container span:last-child {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  min-width: 30px;
+  flex-shrink: 0;
+}
 @media (max-width: 1024px) {
   .main {
     grid-template-columns: 1fr;
