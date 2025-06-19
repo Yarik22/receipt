@@ -124,6 +124,7 @@ class ReceiptApp {
     removeBtn.title = "Видалити послугу";
     removeBtn.addEventListener("click", () => {
       this.service.removeService(service.id);
+      this.generateReceipt();
       this.renderServices();
     });
 
@@ -165,6 +166,7 @@ class ReceiptApp {
       removeBtn.title = "Видалити підпослугу";
       removeBtn.addEventListener("click", () => {
         this.service.removeSubservice(service.id, subservice.id);
+        this.generateReceipt();
         this.renderServices();
       });
 
