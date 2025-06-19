@@ -84,23 +84,25 @@
         </section>
 
         <section class="section">
-          <div
-            style="
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-            "
-          >
-            <h2>Попередній перегляд</h2>
+          <h2>Попередній перегляд</h2>
+          <div class="receipt-container">
+            <div id="receipt" class="receipt">
+              <div id="receiptContent"></div>
+            </div>
             <div class="button-group">
               <button id="downloadReceiptBtn" class="btn btn-primary">
                 <span class="btn-text">Завантажити</span>
               </button>
+              <button id="saveTemplateBtn" class="btn">
+                <span class="btn-text">Зберегти шаблон</span>
+              </button>
+              <button id="loadTemplateBtn" class="btn">
+                <span class="btn-text">Завантажити шаблон</span>
+              </button>
+              <button id="resetTemplateBtn" class="btn">
+                <span class="btn-text">Початковий шаблон</span>
+              </button>
             </div>
-          </div>
-
-          <div id="receipt" class="receipt">
-            <div id="receiptContent"></div>
           </div>
         </section>
       </main>

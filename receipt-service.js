@@ -12,7 +12,7 @@ class ReceiptService {
     };
     this.prepayment = {
       name: "Передплата",
-      price: 0,
+      price: "",
       enabled: true,
     };
   }
@@ -46,7 +46,7 @@ class ReceiptService {
 
   updatePrepayment(name, price) {
     this.prepayment.name = name;
-    this.prepayment.price = parseFloat(price) || 0;
+    this.prepayment.price = price || 0;
   }
 
   addService() {
@@ -108,7 +108,7 @@ class ReceiptService {
     lines.push({
       type: "prepayment",
       name: this.prepayment.name,
-      price: this.prepayment.price.toFixed(0),
+      price: this.prepayment.price || 0,
     });
     lines.push({ type: "divider" });
 
@@ -130,7 +130,7 @@ class ReceiptService {
           lines.push({
             type: "subservice",
             name: `${serviceIndex + 1}.${visibleSubIndex} ${subservice.name}`,
-            price: `${price.toFixed(0)} грн`,
+            price: `${price} грн`,
             number: `${serviceIndex + 1}.${visibleSubIndex}`,
           });
         }
@@ -145,7 +145,7 @@ class ReceiptService {
     lines.push({
       type: "total",
       label: "Загальна сума",
-      value: `${finalTotal.toFixed(0)} грн`,
+      value: `${finalTotal || 0} грн`,
     });
     lines.push({ type: "divider" });
 

@@ -30,9 +30,7 @@ body {
   padding-bottom: 2rem;
 }
 
-h1,
-h2,
-h3 {
+h1, h2, h3 {
   font-weight: 600;
   color: var(--dark);
 }
@@ -86,6 +84,84 @@ p {
   box-shadow: var(--shadow-md);
 }
 
+/* Input Groups */
+.input-group {
+  margin-bottom: 1rem;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.375rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--dark);
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  transition: border-color 0.2s;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Services List */
+.services-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.service-card {
+  background: var(--light);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  border-left: 4px solid var(--primary);
+  box-shadow: var(--shadow);
+}
+
+.service-header {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  align-items: center;
+}
+
+.service-header input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  background: white;
+  border: 1px solid var(--border-dark);
+}
+
+.subservice {
+  display: flex;
+  gap: 0.75rem;
+  margin: 0.5rem 0 0.5rem 0.5rem;
+  align-items: center;
+}
+
+.subservice input[type="text"] {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  margin-right: 0.75rem;
+}
+
+.subservice input[type="number"] {
+  width: 6rem;
+  padding: 0.5rem 0.75rem;
+  margin-right: 0.75rem;
+}
+
+/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -156,84 +232,23 @@ p {
   color: white;
 }
 
-.input-group {
-  margin-bottom: 1rem;
-}
-
-.input-group label {
-  display: block;
-  margin-bottom: 0.375rem;
-  font-weight: 500;
-  font-size: 0.875rem;
-  color: var(--dark);
-}
-
-.input-group input {
-  width: 100%;
-  padding: 0.625rem 0.75rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  font-size: 0.875rem;
-  transition: border-color 0.2s;
-}
-
-.input-group input:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-}
-
-.services-list {
+/* Receipt Section */
+.section:nth-child(2) {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  margin-bottom: 1.5rem;
+  gap: 1.5rem;
 }
 
-.service-card {
-  background: var(--light);
-  border-radius: var(--radius);
-  padding: 1.25rem;
-  border-left: 4px solid var(--primary);
-  box-shadow: var(--shadow);
-}
-
-.service-header {
+.receipt-container {
   display: flex;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
+  flex-direction: column;
   align-items: center;
-}
-
-.service-header input {
-  flex: 1;
-  padding: 0.5rem 0.75rem;
-  background: white;
-  border: 1px solid var(--border-dark);
-}
-
-.subservice {
-  display: flex;
-  gap: 0.75rem;
-  margin: 0.5rem 0 0.5rem 0.5rem;
-  align-items: center;
-}
-
-.subservice input[type="text"] {
-  flex: 1;
-  padding: 0.5rem 0.75rem;
-  margin-right: 0.75rem;
-}
-
-.subservice input[type="number"] {
-  width: 6rem;
-  padding: 0.5rem 0.75rem;
-  margin-right: 0.75rem;
+  gap: 1.5rem;
 }
 
 .receipt {
-  width: var(--receipt-width);
-  margin: 0 auto;
+  width: 100%;
+  max-width: var(--receipt-width);
   padding: 1rem;
   background: white;
   border: 1px dashed var(--border-dark);
@@ -321,6 +336,7 @@ p {
   min-width: 30px;
   flex-shrink: 0;
 }
+
 .subservice-price {
   white-space: nowrap;
   text-align: right;
@@ -345,42 +361,6 @@ p {
   gap: 0.2rem;
 }
 
-.button-group {
-  display: flex;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-}
-
-.button-group .btn {
-  min-width: 120px;
-  padding: 0.75rem 1.25rem;
-  font-size: 0.9rem;
-  transition: all 0.2s ease;
-}
-
-.button-group .btn-primary {
-  background-color: var(--primary);
-  border: 1px solid var(--primary-dark);
-}
-
-.button-group .btn-primary:hover {
-  background-color: var(--primary-dark);
-  transform: translateY(-2px);
-}
-
-.button-group .btn:not(.btn-primary) {
-  background-color: white;
-  border: 1px solid var(--border-dark);
-  color: var(--dark);
-}
-
-.button-group .btn:not(.btn-primary):hover {
-  background-color: var(--light);
-  transform: translateY(-2px);
-}
-
 .prepayment-line {
   display: flex;
   justify-content: space-between;
@@ -402,6 +382,88 @@ p {
   min-width: 30px;
   flex-shrink: 0;
 }
+
+/* Button Group */
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.button-group .btn {
+  flex: 1 1 calc(50% - 0.75rem);
+  min-width: 120px;
+  max-width: 200px;
+  padding: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.button-group .btn-primary {
+  background-color: var(--primary);
+  border: 1px solid var(--primary-dark);
+  color: white;
+}
+
+.button-group .btn-primary:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.button-group .btn:not(.btn-primary) {
+  background-color: white;
+  border: 1px solid var(--border-dark);
+  color: var(--dark);
+}
+
+.button-group .btn:not(.btn-primary):hover {
+  background-color: var(--light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Alerts */
+.alert-success,
+.alert-error,
+.alert-info {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 20px;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out;
+}
+
+.alert-success {
+  background-color: #28a745;
+}
+
+.alert-error {
+  background-color: #dc3545;
+}
+
+.alert-info {
+  background-color: #17a2b8;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive Adjustments */
 @media (max-width: 1024px) {
   .main {
     grid-template-columns: 1fr;
@@ -460,43 +522,26 @@ p {
   }
 
   .button-group {
-    flex-direction: row;
-    justify-content: space-between;
     gap: 0.5rem;
   }
 
   .button-group .btn {
-    flex: 1;
     padding: 0.8rem 0.5rem;
     font-size: 0.85rem;
   }
 }
 
-.service-delete-btn {
-  font-weight: bold;
-  font-size: 1.5rem;
-  background: #ff4444;
-  color: white;
-  border: none;
-}
-
-.subservice-delete-btn {
-  background: white;
-  color: #ff4444;
-  border: 2px solid #ff4444;
-}
-
-button:active {
-  transform: scale(0.95);
-}
-
-.receipt {
-  width: 100%;
-  max-width: var(--receipt-width);
-  margin: 0 auto;
-}
-
+/* Button Active States */
+button:active,
 .button-group .btn:active {
   transform: scale(0.98);
   transition: transform 0.1s ease;
+}
+
+/* Ensure preview heading stays on top */
+.section:nth-child(2) h2 {
+  order: -1;
+  margin-bottom: 0;
+  text-align: center;
+  width: 100%;
 }

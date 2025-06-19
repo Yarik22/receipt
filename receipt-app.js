@@ -5,6 +5,7 @@ class ReceiptApp {
     this.initEventListeners();
     this.render();
     this.setupAutoUpdate();
+    this.loadFromLocalStorage(false);
   }
 
   initElements() {
@@ -20,9 +21,11 @@ class ReceiptApp {
       customerAddress: document.getElementById("customerAddress"),
       prepaymentName: document.getElementById("prepaymentName"),
       prepaymentPrice: document.getElementById("prepaymentPrice"),
+      saveTemplateBtn: document.getElementById("saveTemplateBtn"),
+      loadTemplateBtn: document.getElementById("loadTemplateBtn"),
+      resetTemplateBtn: document.getElementById("resetTemplateBtn"),
     };
   }
-
   initEventListeners() {
     this.elements.addServiceBtn.addEventListener("click", () =>
       this.addService()
@@ -52,6 +55,15 @@ class ReceiptApp {
     );
     this.elements.prepaymentPrice.addEventListener("input", () =>
       this.updatePrepayment()
+    );
+    this.elements.saveTemplateBtn?.addEventListener("click", () =>
+      this.saveToLocalStorage()
+    );
+    this.elements.loadTemplateBtn?.addEventListener("click", () =>
+      this.loadFromLocalStorage()
+    );
+    this.elements.resetTemplateBtn?.addEventListener("click", () =>
+      this.loadInitialTemplate()
     );
   }
 
@@ -305,5 +317,129 @@ class ReceiptApp {
           this.elements.downloadBtn.disabled = false;
         });
     }, 200);
+  }
+
+  saveToLocalStorage() {
+    if (
+      confirm(
+        "Ви впевнені, що хочете зберегти поточний шаблон? Це перезапише попереднє збереження."
+      )
+    ) {
+      const template = {
+        services: this.service.services,
+        employee: this.service.employee,
+        customer: this.service.customer,
+        prepayment: this.service.prepayment,
+      };
+      localStorage.setItem("receiptTemplate", JSON.stringify(template));
+
+      // Show success alert with auto-hide
+      const alert = document.createElement("div");
+      alert.className = "alert-success";
+      alert.textContent = "Шаблон успішно збережено!";
+      document.body.appendChild(alert);
+
+      setTimeout(() => {
+        alert.remove();
+      }, 3000);
+    }
+  }
+
+  loadInitialTemplate() {
+    if (
+      confirm(
+        "Ви впевнені, що хочете завантажити початковий шаблон? Це видалить поточні дані."
+      )
+    ) {
+      this.service = new ReceiptService(); // Reset to initial state
+
+      // Update UI fields
+      this.elements.employeeName.value = this.service.employee.name;
+      this.elements.employeePhone.value = this.service.employee.phone;
+      this.elements.customerName.value = this.service.customer.name;
+      this.elements.customerPhone.value = this.service.customer.phone;
+      this.elements.customerAddress.value = this.service.customer.address;
+      this.elements.prepaymentName.value = this.service.prepayment.name;
+      this.elements.prepaymentPrice.value = this.service.prepayment.price;
+
+      this.renderServices();
+      this.generateReceipt();
+
+      // Show success alert with auto-hide
+      const alert = document.createElement("div");
+      alert.className = "alert-success";
+      alert.textContent = "Початковий шаблон успішно завантажено!";
+      document.body.appendChild(alert);
+
+      setTimeout(() => {
+        alert.remove();
+      }, 3000);
+    }
+  }
+
+  loadFromLocalStorage(showConfirmation = true) {
+    const savedTemplate = localStorage.getItem("receiptTemplate");
+    if (savedTemplate) {
+      const shouldLoad =
+        !showConfirmation ||
+        confirm(
+          "Ви впевнені, що хочете завантажити збережений шаблон? Це перезапише поточні дані."
+        );
+      if (shouldLoad) {
+        try {
+          const template = JSON.parse(savedTemplate);
+          this.service.services = template.services;
+          this.service.employee = template.employee;
+          this.service.customer = template.customer;
+          this.service.prepayment = template.prepayment;
+
+          // Update UI fields
+          this.elements.employeeName.value = this.service.employee.name;
+          this.elements.employeePhone.value = this.service.employee.phone;
+          this.elements.customerName.value = this.service.customer.name;
+          this.elements.customerPhone.value = this.service.customer.phone;
+          this.elements.customerAddress.value = this.service.customer.address;
+          this.elements.prepaymentName.value = this.service.prepayment.name;
+          this.elements.prepaymentPrice.value = this.service.prepayment.price;
+
+          this.renderServices();
+          this.generateReceipt();
+
+          if (showConfirmation) {
+            // Show success alert with auto-hide
+            const alert = document.createElement("div");
+            alert.className = "alert-success";
+            alert.textContent = "Шаблон успішно завантажено!";
+            document.body.appendChild(alert);
+
+            setTimeout(() => {
+              alert.remove();
+            }, 3000);
+          }
+        } catch (e) {
+          console.error("Failed to load template:", e);
+
+          // Show error alert
+          const alert = document.createElement("div");
+          alert.className = "alert-error";
+          alert.textContent = "Помилка завантаження шаблону!";
+          document.body.appendChild(alert);
+
+          setTimeout(() => {
+            alert.remove();
+          }, 3000);
+        }
+      }
+    } else if (showConfirmation) {
+      // Show info alert if no template exists
+      const alert = document.createElement("div");
+      alert.className = "alert-info";
+      alert.textContent = "Збережений шаблон не знайдено!";
+      document.body.appendChild(alert);
+
+      setTimeout(() => {
+        alert.remove();
+      }, 3000);
+    }
   }
 }
