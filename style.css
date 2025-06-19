@@ -30,7 +30,9 @@ body {
   padding-bottom: 2rem;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-weight: 600;
   color: var(--dark);
 }
@@ -244,6 +246,7 @@ p {
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
+
 }
 
 .receipt {
@@ -457,6 +460,7 @@ p {
     transform: translateX(100%);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;
@@ -544,4 +548,83 @@ button:active,
   margin-bottom: 0;
   text-align: center;
   width: 100%;
+}
+
+
+
+/* Changes */
+
+
+* {
+  /* font-family: Arial, Helvetica, sans-serif; */
+}
+
+input {
+  outline: none;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+}
+
+input:focus {
+  border: 1px solid lightblue;
+  box-shadow: 1px 1px 5px lightblue;
+}
+
+.section {
+  position: relative;
+  /* height: min-content; */
+}
+
+.receipt-container {
+  position: sticky;
+  top: 60px;
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+
+  align-items: center;
+}
+
+
+@media (max-width:768px) {
+
+  .subservice-inputs {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+
+@media (min-width:768px) {
+  .preview {
+    display: flex;
+    justify-content: none;
+    flex-direction: row;
+    align-items: none;
+
+    gap: 20px;
+  }
+
+  .btn-text {
+    text-wrap: wrap;
+  }
+
+  .button-group {
+    height: 100%;
+  }
+}
+
+.Logo {
+  width: auto;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
 }

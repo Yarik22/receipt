@@ -100,6 +100,7 @@ class ReceiptService {
 
     // Header
     lines.push({ type: "title", content: "ЧЕК" });
+  
     lines.push({ type: "divider" });
     lines.push({ type: "id", content: "id: " + uuid.v4().split("-")[0] });
     lines.push({ type: "divider" });
@@ -111,7 +112,7 @@ class ReceiptService {
       price: this.prepayment.price || 0,
     });
     lines.push({ type: "divider" });
-
+  
     // Services
     this.services.forEach((service, serviceIndex) => {
       let visibleSubIndex = 0;
@@ -169,7 +170,7 @@ class ReceiptService {
         type: "text",
         content: `Адреса замовника:<br>${this.customer.address}`,
       });
-
+lines.push({ type: "image", src: "/Logo.png" });
     return lines;
   }
 }

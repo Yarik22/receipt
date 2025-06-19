@@ -259,6 +259,16 @@ class ReceiptApp {
             <span>${line.value}</span>
           `;
           break;
+          case "image":
+      el.className = "receipt-image";
+      const img = document.createElement("img");
+      img.src = line.src;
+      img.alt = "Логотип";
+      img.style.maxWidth = "120px"; 
+      img.style.display = "block";
+      img.style.margin = "0 auto";
+      el.appendChild(img);
+      break;
         default:
           el.className = "employee-info";
           el.innerHTML = line.content;
