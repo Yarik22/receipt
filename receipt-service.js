@@ -137,8 +137,8 @@ class ReceiptService {
       });
     });
 
-    // Calculate total with prepayment deduction
-    const finalTotal = total + this.prepayment.price;
+    const price = parseFloat(this.prepayment.price) || 0;
+    const finalTotal = total + price;
 
     // Footer
     lines.push({ type: "divider" });
