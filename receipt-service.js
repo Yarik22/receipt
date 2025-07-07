@@ -137,8 +137,11 @@ class ReceiptService {
       });
     });
 
-    const price = parseFloat(this.prepayment.price) || 0;
-    const finalTotal = total + price;
+    // Prepayment total
+    // const price = parseFloat(this.prepayment.price) || 0;
+    // const finalTotal = total + price;
+
+    const finalTotal = total;
 
     // Footer
     lines.push({ type: "divider" });
@@ -169,6 +172,15 @@ class ReceiptService {
         type: "text",
         content: `Адреса замовника:<br>${this.customer.address}`,
       });
+
+    lines.push({
+      type: "text",
+      content: `Підпис виконавця:<br><br>_________________`,
+    });
+    lines.push({
+      type: "text",
+      content: `Підпис замовника:<br><br>_________________`,
+    });
 
     return lines;
   }
