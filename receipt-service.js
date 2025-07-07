@@ -2,8 +2,8 @@ class ReceiptService {
   constructor() {
     this.services = this.getInitialServices();
     this.employee = {
-      name: "Попов Андрій В'ячеславович",
-      phone: "050-200-55-89",
+      name: "Відсутнній",
+      phone: "Відсутній",
     };
     this.customer = {
       name: "Відсутній",
